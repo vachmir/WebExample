@@ -1,0 +1,79 @@
+﻿@model WebExample.Controllers.AnswerController
+
+@{
+    ViewData["Title"] = "Ցույց տալ";
+}
+<!DOCTYPE Html>
+<html lang="en">
+<head>
+         <meta name="viewport" content="width=device-width"/>    
+         
+         <style>
+             table, th, td { border:1px solid black; }
+         </style>
+</head>
+    
+<body>
+           
+@*@using (Html.BeginForm("ResultHumanAndCar", "ResultHumanAndCar", FormMethod.Post))*@
+   
+       <table>
+         <tr>
+            <th> Անուն </th>
+            <th> Ազգանուն </th>
+            <th> Մեքենայի մեդելը </th>
+         </tr>
+         @foreach (var item in ViewBag.SelectedFromCarOwner) 
+         {                
+         <tr>
+            <td> @Html.Encode(item.FirstName)</td>
+            <td> @Html.Encode(item.LastName)</td>
+            <td> @Html.Encode(item.CarModel)</td>
+         </tr>
+         }
+         </table>
+         <br />
+
+        <table>
+           <tr>
+              <th> PersonId </th>
+              <th> LastName </th>
+              <th> FirstName </th>
+              <th> Address </th>
+              <th> City </th>
+              <th> CarId</th>
+           </tr>
+              
+        @foreach (var item in ViewBag.SelectedTestPersonsFromDb)
+        {
+        <tr>
+            <td> @Html.Encode(item.PersonId)  </td>           
+            <td> @Html.Encode(item.LastName)  </td>            
+            <td> @Html.Encode(item.FirstName) </td>                        
+            <td> @Html.Encode(item.Address)   </td>                          
+            <td> @Html.Encode(item.City)      </td>           
+            <td> @Html.Encode(item.FkcarId)   </td>                 
+        </tr>             
+        }        
+        </table>
+        <br />
+
+
+         <table> 
+            <tr>
+               <th> Car Id </th>
+               <th> Model Name </th>
+            </tr>
+         @foreach(var item in ViewBag.SelectedTestCarsFromDb)
+         {
+         <tr>
+            <td> @Html.Encode(item.CarId) </td>
+            <td> @Html.Encode(item.Model) </td>   
+         </tr> 
+         }
+
+         </table>
+         <br />
+
+</body>
+</html>

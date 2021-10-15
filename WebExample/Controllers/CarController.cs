@@ -8,7 +8,7 @@ namespace WebExample.Controllers
     {
         private ApplicationContext _context=null!;
          
-        public CarController(ApplicationContext context) : base()
+        public CarController(ApplicationContext context)
         {
             _context = context;
         }

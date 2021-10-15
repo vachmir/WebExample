@@ -1,0 +1,27 @@
+﻿@model WebExample.ViewModels.CarsViewModel
+
+<p>Human information</p>
+<form method="post">
+    <table>
+        <tr>
+            <td>First Name:</td>
+            <td><input type="text" name="FirstName" /> </td>
+        </tr>
+         <tr>
+            <td>Last Name:</td>
+            <td><input type="text" name="LastName" /> </td>
+        </tr>
+         <tr>
+            <td>Address:</td>
+            <td><input type="text" name="Address" /> </td>
+        </tr>
+         <tr>
+            <td>City:</td>
+            <td><input type="text" name="City" /> </td>
+        </tr>
+        <tr>
+            @Html.DropDownListFor(m => m.CarsId, new SelectList(Model.Cars, "Id", "Model"), "Select Cars list", new { @class = "petros" })
+        </tr>
+        <tr><td><input type="submit" value="Create" /> </td><td></td></tr>
+    </table>
+</form>

@@ -13,10 +13,16 @@ namespace WebExample.Controllers
     {
         private readonly IConfiguration configuration;
         //string dbConnection = _configuration.GetConnectionString("Default");
+        public AnswerController():base()
+        {
+
+        }
+
         public AnswerController(IConfiguration _configuration)
         {
             configuration = _configuration;
         }
+      
         public IActionResult Result()
         {
             string defaultConn = this.configuration.GetConnectionString("Սկզբնական կապուղի");
@@ -26,66 +32,67 @@ namespace WebExample.Controllers
             using (var connection = new SqlConnection(defaultConn))
             {
                 connection.Open();
-                var command = new SqlCommand("Select * From TestPerson", connection);
+                var command = new SqlCommand("Select * From Humans", connection);
 
                 SqlDataReader reader = command.ExecuteReader();
 
-                List<TestPerson> testPerson = new List<TestPerson>();
+                List<Human> human = new List<Human>();
                 while (reader.Read())
                 {
-                    testPerson.Add(new TestPerson
+                    human.Add(new Human
                     {
-                        PersonId = Convert.ToInt32(reader["PersonId"]),
-                        LastName = reader["LastName"].ToString(),
+                       // Id = Convert.ToInt32(reader["Id"]),                        
                         FirstName = reader["FirstName"].ToString(),
+                        LastName = reader["LastName"].ToString(),
                         Address = reader["Address"].ToString(),
                         City = reader["City"].ToString(),
-                        FkcarId = Convert.ToInt32(reader["FkcarId"])
+                       // CarsId = Convert.ToInt32(reader["FkcarId"])
                     }); 
                 }
-                ViewBag.SelectedTestPersonsFromDb = testPerson;
+                ViewBag.SelectedTestPersonsFromDb = human;
             }
 
             using (var connection = new SqlConnection(defaultConn))
             {
                 connection.Open();
-                var command = new SqlCommand("Select * From TestCar", connection);
+                var command = new SqlCommand("Select * From Cars", connection);
 
                 SqlDataReader reader = command.ExecuteReader();
 
-                List<TestCar> testCar = new List<TestCar>();
+                List<Car> car = new List<Car>();
                 while (reader.Read())
                 {
-                    testCar.Add(new TestCar
+                    car.Add(new Car
                     {
-                        CarId = Convert.ToInt32(reader["CarId"]),
-                        Model=reader["Model"].ToString()
+                        Id = Convert.ToInt32(reader["Id"]),
+                        Model = reader["Model"].ToString(),
+                        SerialNumber = reader["SerialNumber"].ToString()
 
-                    });
-                }
-                ViewBag.SelectedTestCarsFromDb = testCar;
-            }
-
-            using (var connection= new SqlConnection(defaultConn))
-            {
-                connection.Open();
-                var command = new SqlCommand("SELECT TestPerson.LastName, TestPerson.FirstName, TestCar.Model" +
-                                            " FROM TestPerson, TestCar WHERE TestPerson.FKCarId = TestCar.CarId", connection);
-
-                SqlDataReader reader = command.ExecuteReader();
-
-                List<CarOwner> carOwners = new List<CarOwner>();
-                while (reader.Read())
-                {
-                    carOwners.Add(new CarOwner
-                    {
-                        FirstName = reader["FirstName"].ToString(),
-                        LastName = reader["LastName"].ToString(),
-                        CarModel = reader["Model"].ToString()
                     }) ;
                 }
-                ViewBag.SelectedFromCarOwner = carOwners;
+                ViewBag.SelectedTestCarsFromDb = car;
             }
+
+            //using (var connection= new SqlConnection(defaultConn))
+            //{
+            //    connection.Open();
+            //    var command = new SqlCommand("SELECT Humans.LastName, Humans.FirstName, Cars.Model" +
+            //                                " FROM Humans, Cars WHERE Humans.CarId = Cars.CarId", connection);
+
+            //    SqlDataReader reader = command.ExecuteReader();
+
+            //    List<CarOwner> carOwners = new List<CarOwner>();
+            //    while (reader.Read())
+            //    {
+            //        carOwners.Add(new CarOwner
+            //        {
+            //            FirstName = reader["FirstName"].ToString(),
+            //            LastName = reader["LastName"].ToString(),
+            //            CarModel = reader["Model"].ToString()
+            //        }) ;
+            //    }
+            //    ViewBag.SelectedFromCarOwner = carOwners;
+            //}
             return View();
         }
 
